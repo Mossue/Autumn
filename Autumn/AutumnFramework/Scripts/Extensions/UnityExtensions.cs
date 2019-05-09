@@ -11,7 +11,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 namespace Autumn
 {
@@ -32,7 +31,7 @@ namespace Autumn
             while (inputList.Count > 0)
             {
                 //Select an index and item
-                int rdIndex = Random.Range(0, inputList.Count);
+                int rdIndex = ARandom.Range(0, inputList.Count);
                 T remove = inputList[rdIndex];
 
                 //remove it from copyList and add it to output
@@ -41,6 +40,7 @@ namespace Autumn
             }
             return outputList;
         }
+
         public static Color HexToColor(string hex, bool alpha = false)
         {
             byte br = byte.Parse(hex.Substring(0, 2), System.Globalization.NumberStyles.HexNumber);
@@ -86,50 +86,6 @@ namespace Autumn
             return null;
         }
 
-        private static long Jan1st1970Ms = new System.DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Local).Ticks;
-
-        public static long CurrentTimeMillis()
-        {
-            return (System.DateTime.Now.Ticks - Jan1st1970Ms) / 10000;
-        }
-
-        public static string GetTimeStamp()
-        {
-            TimeSpan ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            return Convert.ToInt64(ts.TotalMilliseconds).ToString();
-        }
-        public static string GetTimeStamp(DateTime dateTime)
-        {
-            TimeSpan ts = dateTime - new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            return Convert.ToInt64(ts.TotalMilliseconds).ToString();
-        }
-
-        public static DateTime GetTimeFromTimestamp(string timestamp)
-        {
-            DateTime dtStart = new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            return dtStart.AddMilliseconds(long.Parse(timestamp));
-        }
-
-        public static long GetSecFromTimestamps(string timestamp)
-        {
-            DateTime dtStart = new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            var dtLast = dtStart.AddMilliseconds(long.Parse(timestamp));
-            return (long)(DateTime.Now - dtLast).TotalSeconds;
-        }
-
-        public static long GetLeftFromTimestamp(string timestamp)
-        {
-            DateTime taget = GetTimeFromTimestamp(timestamp);
-            return (long)(taget - DateTime.Now).TotalSeconds;
-        }
-
-        public static string GetTimeStampAfterSec(string timestamp, int sec)
-        {
-            DateTime dtStart = new DateTime(1970, 1, 1, 0, 0, 0, 0);
-            var dtLast = dtStart.AddMilliseconds(long.Parse(timestamp)).AddSeconds(sec);
-            return Convert.ToInt64((dtLast - dtStart).TotalMilliseconds).ToString();
-        }
-
         //public static void DoBuzz(float time)
         //{
         //    if (PlayerPrefs.GetInt(Define.BUZZ_STATE, 1) > 0)
@@ -137,11 +93,6 @@ namespace Autumn
         //        AndroidVibration.Vibrate((long)(time * 1000));
         //    }
         //}
-
-        public static T GetStringEnum<T>(string val)
-        {
-            return (T)Enum.Parse(typeof(T), val);
-        }
 
         public static Coroutine CallWithDelay(this MonoBehaviour obj, System.Action call, float delay)
         {
@@ -283,10 +234,12 @@ namespace Autumn
             go.transform.localScale = Vector3.one;
             go.transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
+
         static public void ResetLocalAngle(this GameObject go)
         {
             go.transform.localEulerAngles = Vector3.zero;
         }
+
         static public void ResetLocalPos(this GameObject go)
         {
             go.transform.localPosition = Vector3.zero;
@@ -316,6 +269,7 @@ namespace Autumn
             animator.Play(stateName, layer, normalizedTime);
             animator.StartPlayback();
         }
+
         static public void SampleAnim(this Animation anim, string stateName, float normalizedTime)
         {
             anim.Play(stateName);
@@ -323,6 +277,7 @@ namespace Autumn
             anim[stateName].normalizedTime = normalizedTime;
             anim[stateName].speed = 0;
         }
+
         static public void PlayAnim(this Animation anim, string stateName)
         {
             anim.Play(stateName);
@@ -340,6 +295,7 @@ namespace Autumn
                     bodies[i].isKinematic = state;
             }
         }
+
         static public void SetColliderEnable(this GameObject obj, bool state)
         {
             var cols = obj.GetComponentsInChildren<Collider>();
@@ -355,12 +311,14 @@ namespace Autumn
             for (int i = 0; i < bodies.Length; i++)
                 bodies[i].AddForce(force, mode);
         }
+
         static public void SetRigidBodiesDrag(this GameObject obj, float dragVal = 0)
         {
             var bodies = obj.GetComponentsInChildren<Rigidbody>();
             for (int i = 0; i < bodies.Length; i++)
                 bodies[i].drag = dragVal;
         }
+
         static public void SetRigidBodiesAngularDrag(this GameObject obj, float dragVal = 0.05f)
         {
             var bodies = obj.GetComponentsInChildren<Rigidbody>();
@@ -454,6 +412,7 @@ namespace Autumn
             localPos.z = 0f;
             uiTarget.localPosition = localPos;
         }
+
         public static void ScenePosition2UIPosition(Camera sceneCamera, Camera uiCamera, Vector3 posInScene, Transform uiTarget)
         {
             Vector3 viewportPos = sceneCamera.WorldToViewportPoint(posInScene);
@@ -470,7 +429,6 @@ namespace Autumn
             Vector3 worldPos = uiCamera.ViewportToWorldPoint(viewportPos);
             return worldPos;
         }
-
 
         public static bool IsAfNonOrganic()
         {

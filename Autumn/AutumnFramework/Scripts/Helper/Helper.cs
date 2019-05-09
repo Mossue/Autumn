@@ -18,6 +18,58 @@ namespace Autumn
 {
     public class Helper
     {
+        #region 时间戳
+        private static long Jan1st1970Ms = new System.DateTime(1970, 1, 1, 0, 0, 0, System.DateTimeKind.Local).Ticks;
+        public static long CurrentTimeMillis()
+        {
+            return (System.DateTime.Now.Ticks - Jan1st1970Ms) / 10000;
+        }
+
+        public static string GetTimeStamp()
+        {
+            TimeSpan ts = DateTime.Now - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return Convert.ToInt64(ts.TotalMilliseconds).ToString();
+        }
+
+        public static string GetTimeStamp(DateTime dateTime)
+        {
+            TimeSpan ts = dateTime - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return Convert.ToInt64(ts.TotalMilliseconds).ToString();
+        }
+
+        public static DateTime GetTimeFromTimestamp(string timestamp)
+        {
+            DateTime dtStart = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return dtStart.AddMilliseconds(long.Parse(timestamp));
+        }
+
+        public static long GetSecFromTimestamps(string timestamp)
+        {
+            DateTime dtStart = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            var dtLast = dtStart.AddMilliseconds(long.Parse(timestamp));
+            return (long)(DateTime.Now - dtLast).TotalSeconds;
+        }
+
+        public static long GetLeftFromTimestamp(string timestamp)
+        {
+            DateTime taget = GetTimeFromTimestamp(timestamp);
+            return (long)(taget - DateTime.Now).TotalSeconds;
+        }
+
+        public static string GetTimeStampAfterSec(string timestamp, int sec)
+        {
+            DateTime dtStart = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            var dtLast = dtStart.AddMilliseconds(long.Parse(timestamp)).AddSeconds(sec);
+            return Convert.ToInt64((dtLast - dtStart).TotalMilliseconds).ToString();
+        }
+        #endregion
+
+        //string 转 enum
+        public static T GetStringEnum<T>(string val)
+        {
+            return (T)Enum.Parse(typeof(T), val);
+        }
+
         public static long GetCurrentTimeSecond()
         {
             long ticks = DateTime.UtcNow.Ticks;
@@ -143,7 +195,6 @@ namespace Autumn
 
             return ret;
         }
-
 
         public static bool String2Bool(string value)
         {
