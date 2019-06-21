@@ -30,7 +30,7 @@ namespace Autumn
             AutoNamedAssets();
             BuildPipeline.BuildAssetBundles(outPath, BuildAssetBundleOptions.None, BuildTarget.StandaloneWindows64);
             AssetDatabase.Refresh();  
-            Debug.Log("AssetBundles Created");
+            Log.i("AssetBundles Created");
         }
 
         private static void AutoNamedAssets()

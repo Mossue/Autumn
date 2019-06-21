@@ -69,7 +69,7 @@ namespace Autumn
             Type type = Type.GetType(className);
             if (type == null)
             {
-                Debug.LogError("Not Find Handler Class:" + className);
+                Log.e("Not Find Handler Class:" + className);
                 return null;
             }
 
@@ -81,7 +81,7 @@ namespace Autumn
             }
             catch (Exception e)
             {
-                Debug.LogError(e);
+                Log.e(e);
             }
             return null;
         }
@@ -189,6 +189,15 @@ namespace Autumn
         static public void LookAtXZ(this Transform trans, Vector3 target)
         {
             trans.LookAt(new Vector3(target.x, trans.position.y, target.z));
+        }
+        /// <summary>
+        /// 在游戏中，朝向的时候只朝向x坐标
+        /// </summary>
+        /// <param name="trans"></param>
+        /// <param name="target"></param>
+        static public void LookAtX(this Transform trans, Vector3 target)
+        {
+            trans.LookAt(new Vector3(target.x, trans.position.y, trans.position.z));
         }
         /// <summary>
         /// 遍历go c
@@ -460,6 +469,16 @@ namespace Autumn
             long second = (timestamp % 60);
             return string.Format("{0:D2}:{1:D2}:{2:D2}", hours
                 , minute, second);
+        }
+
+        /// <summary>
+        /// 设置LocalY，只改变LocalY c
+        /// </summary>
+        /// <param name="trans"></param>
+        /// <param name="x"></param>
+        static public void SetLocalRotY(this Transform trans, float y)
+        {
+            trans.localEulerAngles = new Vector3(trans.localEulerAngles.x, y, trans.localEulerAngles.z);
         }
     }
 }

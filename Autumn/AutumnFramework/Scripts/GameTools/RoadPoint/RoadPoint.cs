@@ -25,8 +25,11 @@ namespace Autumn
         private bool m_StartPoint;
         [SerializeField]
         private bool m_EndPoint;
-        [SerializeField]
-        private List<RoadPoint> m_AvaliableRoad;
+
+        public List<RoadPoint> avaliableRoad;
+        public Transform leftRoad;
+        public Transform rightRoad;
+        public bool isArrive = false;
 
         public bool StartPoint
         {
@@ -37,27 +40,30 @@ namespace Autumn
             get { return m_EndPoint; }
         }
 
-        public RoadPoint GetNextRoadPoint()
+        public RoadPoint GetNextRoadPoint() 
         {
-            return m_AvaliableRoad[ARandom.Range(0, m_AvaliableRoad.Count)];
+            return avaliableRoad[0];
         }
 
 #if UNITY_EDITOR
 
-        public void OnDrawGizmos() 
+        public void OnDrawGizmos()
         {
             Gizmos.color = m_Color;
-            Gizmos.DrawSphere(transform.position, HandleUtility.GetHandleSize(transform.position) * 0.1f);
-            if (m_AvaliableRoad != null && m_AvaliableRoad.Count > 0)
+            Gizmos.DrawSphere(transform.position, HandleUtility.GetHandleSize(transform.position) * 0.2f);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawSphere(leftRoad.position, HandleUtility.GetHandleSize(transform.position) * 0.1f);
+            Gizmos.DrawSphere(rightRoad.position, HandleUtility.GetHandleSize(transform.position) * 0.1f);
+
+            if (avaliableRoad != null && avaliableRoad.Count > 0)
             {
-                for (int i = 0; i < m_AvaliableRoad.Count; i++)
+                for (int i = 0; i < avaliableRoad.Count; i++)
                 {
-                    Gizmos.DrawLine(transform.position, m_AvaliableRoad[i].transform.position);
+                    Gizmos.DrawLine(leftRoad.position, avaliableRoad[i].leftRoad.position);
+                    Gizmos.DrawLine(rightRoad.position, avaliableRoad[i].rightRoad.position);
                 }
             }
         }
-
-
 #endif
     }
 }

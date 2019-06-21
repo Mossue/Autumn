@@ -2,3 +2,4 @@ MainPanel|UI/MainPanel
 TestPanel|UI/TestPanel
 WinPanel|UI/WinPanel
 LoginPanel|UI/LoginPanel
+GamePanel|UI/GamePanel
